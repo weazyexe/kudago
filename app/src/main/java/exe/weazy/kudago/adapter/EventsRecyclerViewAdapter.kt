@@ -1,48 +1,72 @@
 package exe.weazy.kudago.adapter
 
-import android.annotation.SuppressLint
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import exe.weazy.kudago.activity.EventActivity
 import exe.weazy.kudago.R
-import kotlinx.android.synthetic.main.event_card.view.*
+import exe.weazy.kudago.entity.Event
+import exe.weazy.kudago.enums.ItemClickListener
 
-class EventsRecyclerViewAdapter(private val items : ArrayList<EventsRecyclerViewCard>) : RecyclerView.Adapter<EventsRecyclerViewAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) = ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.event_card, p0, false))
+class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.Adapter<EventsRecyclerViewAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) = ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.card_event, p0, false))
 
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val item = items[p1]
 
-        p0.header.text = item.header
-        p0.description.text = item.description
-        p0.image.setImageResource(item.image)
-        p0.datetime.text = item.datetime
-        p0.location.text = item.location
-        if (item.price == 0) p0.price.text = "Бесплатно"
-        else p0.price.text = item.price.toString() + " руб."
+        p0.title.text = item.title
+        p0.shortDescription.text = item.shortDescription
+        p0.dates.text = item.dates
+        p0.place.text = item.place
+        p0.price.text = item.price
+
+        Glide.with(p0.eventLayout).load(item.imageUrls[0]).into(p0.image)
+
+        p0.itemClickListener = object : ItemClickListener {
+            override fun onClick(view: View?, position: Int) {
+                val intent = Intent(view?.context, EventActivity::class.java)
+                startActivity(view!!.context, intent, null)
+            }
+        }
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var header : TextView
-        var description : TextView
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
+        var eventLayout : FrameLayout
+        var title : TextView
+        var shortDescription : TextView
         var image : ImageView
-        var location : TextView
-        var datetime : TextView
+        var place : TextView
+        var dates : TextView
         var price : TextView
+
+        lateinit var itemClickListener : ItemClickListener
 
         init {
             super.itemView
-            header = itemView.findViewById(R.id.card_header)
-            description = itemView.findViewById(R.id.card_desc)
+            eventLayout = itemView.findViewById(R.id.event_layout)
+            title = itemView.findViewById(R.id.card_header)
+            shortDescription = itemView.findViewById(R.id.card_desc)
             image = itemView.findViewById(R.id.card_image)
-            location = itemView.findViewById(R.id.card_location)
-            datetime = itemView.findViewById(R.id.card_date)
+            place = itemView.findViewById(R.id.card_location)
+            dates = itemView.findViewById(R.id.card_date)
             price = itemView.findViewById(R.id.card_cost)
+
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            itemClickListener.onClick(v, adapterPosition)
         }
     }
 }
