@@ -1,7 +1,5 @@
 package exe.weazy.kudago.adapter
 
-import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +8,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import exe.weazy.kudago.activity.EventActivity
 import exe.weazy.kudago.R
 import exe.weazy.kudago.entity.Event
-import exe.weazy.kudago.enums.ItemClickListener
 
 class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.Adapter<EventsRecyclerViewAdapter.ViewHolder>() {
+
+    var onItemClick: ((Event) -> Unit)? = null
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int) = ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.card_event, p0, false))
 
@@ -26,21 +24,20 @@ class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.
 
         p0.title.text = item.title
         p0.shortDescription.text = item.shortDescription
-        p0.dates.text = item.dates
-        p0.place.text = item.place
-        p0.price.text = item.price
+
+        if (item.dates != "") p0.dates.text = item.dates
+        else p0.dates.visibility = View.GONE
+
+        if (item.place != "") p0.place.text = item.place
+        else p0.place.visibility = View.GONE
+
+        if (item.price != "") p0.price.text = item.price
+        else p0.price.visibility = View.GONE
 
         Glide.with(p0.eventLayout).load(item.imageUrls[0]).into(p0.image)
-
-        p0.itemClickListener = object : ItemClickListener {
-            override fun onClick(view: View?, position: Int) {
-                val intent = Intent(view?.context, EventActivity::class.java)
-                startActivity(view!!.context, intent, null)
-            }
-        }
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var eventLayout : FrameLayout
         var title : TextView
@@ -49,8 +46,6 @@ class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.
         var place : TextView
         var dates : TextView
         var price : TextView
-
-        lateinit var itemClickListener : ItemClickListener
 
         init {
             super.itemView
@@ -62,11 +57,9 @@ class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.
             dates = itemView.findViewById(R.id.card_date)
             price = itemView.findViewById(R.id.card_cost)
 
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            itemClickListener.onClick(v, adapterPosition)
+            itemView.setOnClickListener {
+                onItemClick?.invoke(items[adapterPosition])
+            }
         }
     }
 }

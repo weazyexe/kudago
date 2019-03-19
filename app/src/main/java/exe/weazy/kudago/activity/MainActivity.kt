@@ -1,11 +1,13 @@
 package exe.weazy.kudago.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import exe.weazy.kudago.R
+import exe.weazy.kudago.Tools
 import exe.weazy.kudago.adapter.EventsRecyclerViewAdapter
 import exe.weazy.kudago.entity.Event
 import exe.weazy.kudago.network.EventsRepository
@@ -23,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         swipe_refresh_layout.setOnRefreshListener {
             connection_failed.visibility = View.GONE
-            event_cards_rv.visibility = View.GONE
 
             updateEvents()
         }
@@ -41,16 +42,18 @@ class MainActivity : AppCompatActivity() {
                         currentImages.add(img.image)
                     }
 
+                    val tools = Tools()
+
                     events.add(Event(
                         it.id,
                         it.title,
                         it.description,
                         it.fullDescription,
-                        it.place.toString(),
-                        it.dates.toString(),
+                        tools.placeToString(it.place),
+                        tools.datesToString(it.dates[0].start_date, it.dates[0].end_date),
                         it.price,
                         currentImages,
-                        listOf(it.place.toString())
+                        tools.coordinatesToList(it.place)
                     ))
 
                     createEventsFeed()
@@ -69,10 +72,27 @@ class MainActivity : AppCompatActivity() {
     fun createEventsFeed() {
         swipe_refresh_layout.isRefreshing = false
 
-        event_cards_rv.visibility = View.VISIBLE
-        event_cards_rv.adapter = EventsRecyclerViewAdapter(events)
+        val adapter = EventsRecyclerViewAdapter(events)
+
+        adapter.onItemClick = {
+            val intent = Intent(this, EventActivity::class.java)
+
+            intent.putExtra("title", it.title)
+            intent.putExtra("shortDesc", it.shortDescription)
+            intent.putExtra("fullDesc", it.fullDescription)
+            intent.putExtra("place", it.place)
+            intent.putExtra("dates", it.dates)
+            intent.putExtra("price", it.price)
+            intent.putExtra("images", it.imageUrls)
+            intent.putExtra("coordinates", it.coordinates)
+
+            startActivity(intent)
+        }
+
+        event_cards_rv.adapter = adapter
         event_cards_rv.layoutManager = LinearLayoutManager(this)
 
+        event_cards_rv.visibility = View.VISIBLE
         loading_view.visibility = View.GONE
     }
 

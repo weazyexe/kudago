@@ -7,37 +7,183 @@
         android:layout_height="match_parent"
         tools:context=".activity.EventActivity">
 
-    <LinearLayout
+
+
+
+
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                    android:id="@+id/images_viewpager"
+            <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp">
-            </android.support.v4.view.ViewPager>
+                    android:layout_height="wrap_content">
 
-            <me.relex.circleindicator.CircleIndicator
-                    android:id="@+id/circleIndicator"
+                <android.support.v4.view.ViewPager
+                        android:id="@+id/images_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp">
+                </android.support.v4.view.ViewPager>
+
+                <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/circleIndicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_marginBottom="8dp"
+                        app:ci_drawable_unselected="@drawable/ic_ellipse_blank"
+                        app:ci_drawable="@drawable/ic_ellipse_selected"
+                        app:ci_animator="@animator/circle_animator"
+                        app:ci_height="8dp"
+                        app:ci_width="8dp">
+
+                </me.relex.circleindicator.CircleIndicator>
+
+            </FrameLayout>
+
+            <TextView
+                    android:id="@+id/event_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="24sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"
-                    app:ci_drawable_unselected="@drawable/ic_ellipse_blank"
-                    app:ci_drawable="@drawable/ic_ellipse_selected"
-                    app:ci_animator="@animator/circle_animator"
-                    app:ci_height="8dp"
-                    app:ci_width="8dp">
+                    tools:text="LOREM IPSUM HEADER"/>
 
-            </me.relex.circleindicator.CircleIndicator>
+            <TextView
+                    android:id="@+id/event_short_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            />
 
-        </FrameLayout>
+            <TextView
+                    android:id="@+id/event_full_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            />
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="16dp">
 
-    </LinearLayout>
+                <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_location"/>
+
+                <TextView
+                        android:id="@+id/event_place"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorGrayDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Nowhere"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp">
+
+                <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_date"/>
+
+                <TextView
+                        android:id="@+id/event_dates"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorGrayDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Never"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="16dp"
+                    tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_cost"
+                />
+
+                <TextView
+                        android:id="@+id/event_price"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorGrayDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Overprice"/>
+
+            </LinearLayout>
+
+            <com.google.android.gms.maps.MapView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_coordinates"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goBack">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back"
+                android:layout_margin="16dp"/>
+
+    </FrameLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

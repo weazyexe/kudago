@@ -9,6 +9,6 @@ class Event (
     var place : String,
     var dates : String,
     var price : String,
-    var imageUrls : List<String>,
-    var coordinates: List<String>
+    var imageUrls : ArrayList<String>,
+    var coordinates: ArrayList<String>
 )
