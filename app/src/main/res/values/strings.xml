@@ -3,4 +3,5 @@
     <string name="connection_failed">Ошибка загрузки данных, проверьте соединение с интернетом</string>
     <string name="connection_failed_snackbar">Невозможно загрузить данные</string>
     <string name="retry">Подключиться</string>
+    <string name="route">Проложить маршрут</string>
 </resources>

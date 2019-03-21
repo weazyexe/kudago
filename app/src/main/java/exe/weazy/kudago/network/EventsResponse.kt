@@ -31,7 +31,7 @@ data class Event(
     val images: ArrayList<Image>
 )
 
-data class Place(
+data class Place (
     @SerializedName("title")
     val title: String?,
     @SerializedName("address")

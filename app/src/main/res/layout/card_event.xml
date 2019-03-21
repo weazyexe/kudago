@@ -17,6 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginBottom="16dp"
         >
 
             <ImageView
@@ -26,13 +27,14 @@
                     android:scaleType="centerCrop"
                     tools:src="@drawable/sample_header"/>
 
+
             <TextView
                     android:id="@+id/card_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
@@ -54,6 +56,7 @@
             />
 
             <LinearLayout
+                    android:id="@+id/placeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -79,6 +82,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/datesLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -104,13 +108,13 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/priceLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="16dp"
                     tools:ignore="UseCompoundDrawables">
 
                 <ImageView

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         updateEvents()
     }
 
-    fun updateEvents() {
+    private fun updateEvents() {
         EventsRepository.instance.getEvents(object : ResponseCallback<EventsResponse> {
             override fun onSuccess(apiResponse: EventsResponse) {
                 apiResponse.events.forEach {
@@ -77,15 +77,7 @@ class MainActivity : AppCompatActivity() {
         adapter.onItemClick = {
             val intent = Intent(this, EventActivity::class.java)
 
-            intent.putExtra("title", it.title)
-            intent.putExtra("shortDesc", it.shortDescription)
-            intent.putExtra("fullDesc", it.fullDescription)
-            intent.putExtra("place", it.place)
-            intent.putExtra("dates", it.dates)
-            intent.putExtra("price", it.price)
-            intent.putExtra("images", it.imageUrls)
-            intent.putExtra("coordinates", it.coordinates)
-
+            intent.putExtra("event", it)
             startActivity(intent)
         }
 

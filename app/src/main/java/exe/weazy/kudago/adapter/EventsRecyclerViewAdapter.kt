@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import exe.weazy.kudago.R
@@ -22,17 +23,17 @@ class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val item = items[p1]
 
-        p0.title.text = item.title
+        p0.title.text = item.title.toUpperCase()
         p0.shortDescription.text = item.shortDescription
 
         if (item.dates != "") p0.dates.text = item.dates
-        else p0.dates.visibility = View.GONE
+        else p0.datesLayout.visibility = View.GONE
 
         if (item.place != "") p0.place.text = item.place
-        else p0.place.visibility = View.GONE
+        else p0.placeLayout.visibility = View.GONE
 
         if (item.price != "") p0.price.text = item.price
-        else p0.price.visibility = View.GONE
+        else p0.priceLayout.visibility = View.GONE
 
         Glide.with(p0.eventLayout).load(item.imageUrls[0]).into(p0.image)
     }
@@ -46,6 +47,9 @@ class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.
         var place : TextView
         var dates : TextView
         var price : TextView
+        var datesLayout : LinearLayout
+        var placeLayout : LinearLayout
+        var priceLayout : LinearLayout
 
         init {
             super.itemView
@@ -56,6 +60,9 @@ class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.
             place = itemView.findViewById(R.id.card_location)
             dates = itemView.findViewById(R.id.card_date)
             price = itemView.findViewById(R.id.card_cost)
+            datesLayout = itemView.findViewById(R.id.datesLayout)
+            placeLayout = itemView.findViewById(R.id.placeLayout)
+            priceLayout = itemView.findViewById(R.id.priceLayout)
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(items[adapterPosition])
