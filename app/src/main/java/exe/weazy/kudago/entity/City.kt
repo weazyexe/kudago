@@ -12,6 +12,8 @@ class City: @kotlin.jvm.Transient Serializable {
 
     var checked = false
 
+    constructor()
+
     constructor(slug: String, title : String, checked : Boolean) {
         this.slug = slug
         this.title = title

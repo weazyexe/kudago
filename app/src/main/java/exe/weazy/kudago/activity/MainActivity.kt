@@ -1,5 +1,6 @@
 package exe.weazy.kudago.activity
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,29 +8,31 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import exe.weazy.kudago.EventsViewModel
 import exe.weazy.kudago.R
 import exe.weazy.kudago.Tools
 import exe.weazy.kudago.adapter.EventsRecyclerViewAdapter
 import exe.weazy.kudago.entity.City
 import exe.weazy.kudago.entity.Event
-import exe.weazy.kudago.network.EventsResponse
-import exe.weazy.kudago.network.EventsResponseCallback
-import exe.weazy.kudago.network.RequestsRepository
+import exe.weazy.kudago.network.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var events = ArrayList<Event>()
+    private val eventViewModel by lazy { ViewModelProviders.of(this).get(EventsViewModel::class.java) }
+
+    companion object {
+        var events = ArrayList<Event>()
+    }
+
     lateinit var city: City
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //updateDataFromPreferences()
-        city = City("msk", "Москва", true)
-        tv_city.text = city.title
+        getCurrentCity()
 
         swipe_refresh_layout.setOnRefreshListener {
             connection_failed.visibility = View.GONE
@@ -139,27 +142,26 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences.edit().putString("city", city.slug).commit()
     }
 
-    private fun updateDataFromPreferences() {
-        val sharedPreferences = getSharedPreferences(getString(R.string.app_package), Context.MODE_PRIVATE)
-        val slug = sharedPreferences.getString("city", "msk")
-        //setCityBySlug(slug)
-    }
 
-    /*private fun setCityBySlug(slug: String) {
-        val cityActivity = CityActivity()
+    private fun getCurrentCity() {
+        val slug = getSharedPreferences(getString(R.string.app_package), Context.MODE_PRIVATE).getString("city", "msk")
 
-        cityActivity.updateCities()
-        cityActivity.cities.forEach {
-            if (it.slug == slug) {
-                city.title = it.title
-                city.slug = it.slug
+        city = City()
+        city.slug = slug
+
+        RequestsRepository.instance.getCityBySlug(slug, object : CityResponseCallback<CityResponse> {
+            override fun onSuccess(apiResponse: CityResponse) {
+                city.title = apiResponse.name
                 city.checked = true
+                tv_city.text = city.title
             }
-        }
-        tv_city.text = city.title
+
+            override fun onFailure(error: String) {
+                city.title = "Москва"
+                city.slug = "msk"
+                city.checked = true
+                tv_city.text = city.title
+            }
+        })
     }
-
-    fun getCityBySlug(slug: String) {
-
-    }*/
 }

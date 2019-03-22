@@ -18,6 +18,6 @@ interface RequestService {
     @GET("locations/?lang=ru")
     fun getCities() : Call<List<City>>
 
-    @GET("/locations/{location}")
-    fun getCityBySlug(@Path("location") slug: String) : Call<String>
+    @GET("locations/{location}/?fields=name,slug")
+    fun getCityBySlug(@Path("location") slug: String) : Call<CityResponse>
 }

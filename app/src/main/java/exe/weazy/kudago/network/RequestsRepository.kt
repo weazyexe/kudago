@@ -55,23 +55,23 @@ class RequestsRepository {
             })
     }
 
-    /*fun getCities(cityResponseCallback: CityResponseCallback<String>) {
-        NetworkService.instance.service.getCities()
-            .enqueue(object : Callback<String> {
+    fun getCityBySlug(slug: String, cityResponseCallback: CityResponseCallback<CityResponse>) {
+        NetworkService.instance.service.getCityBySlug(slug)
+            .enqueue(object : Callback<CityResponse> {
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    cityResponseCallback.onFailure("Getting cities error")
+                override fun onFailure(call: Call<CityResponse>, t: Throwable) {
+                    cityResponseCallback.onFailure("Getting city error")
                 }
 
-                override fun onResponse(call: Call<List<City>>, response: Response<String>) {
-                    val citiesResponse = response.body()
+                override fun onResponse(call: Call<CityResponse>, response: Response<CityResponse>) {
+                    val cityResponse = response.body()
 
-                    if (citiesResponse != null) {
-                        cityResponseCallback.onSuccess(citiesResponse)
+                    if (cityResponse != null) {
+                        cityResponseCallback.onSuccess(cityResponse)
                     } else {
-                        cityResponseCallback.onFailure("Getting cities error")
+                        cityResponseCallback.onFailure("Getting city error")
                     }
                 }
             })
-    }*/
+    }
 }

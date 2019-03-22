@@ -12,6 +12,13 @@ data class EventsResponse(
     val events: List<Event>
 ) : ApiResponse
 
+data class CityResponse(
+    @SerializedName("slug")
+    val slug : String,
+    @SerializedName("name")
+    val name: String
+) : ApiResponse
+
 data class Event(
     @SerializedName("id")
     val id: Int,
