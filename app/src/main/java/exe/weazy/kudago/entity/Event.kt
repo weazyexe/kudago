@@ -1,7 +1,6 @@
 package exe.weazy.kudago.entity
 import android.os.Parcel
 import android.os.Parcelable
-import java.io.Serializable
 
 class Event : Parcelable {
     var id: Int = 0
@@ -34,7 +33,6 @@ class Event : Parcelable {
         dates = parcel.readString()
         imageUrls = parcel.readArrayList(String.javaClass.classLoader) as ArrayList<String>
         coordinates = parcel.readArrayList(Double.javaClass.classLoader) as ArrayList<Double>
-        //coordinates = parcel.createStringArrayList()
     }
 
     constructor(id: Int, title: String, shortDescription : String,

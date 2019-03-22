@@ -48,7 +48,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var images: ArrayList<String>
 
-        coordinates = data.coordinates//.map { it.toDouble() }.toList()
+        coordinates = data.coordinates
 
         if (coordinates.isNotEmpty()) createMapView()
         else mapLayout.visibility = View.GONE

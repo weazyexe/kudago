@@ -3,7 +3,6 @@ package exe.weazy.kudago.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -20,8 +19,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    //private val eventViewModel by lazy { ViewModelProviders.of(LinearLayoutManagerthis).get(EventsViewModel::class.java) }
-    var mListState : Parcelable? = null
+    var lastFirstVisiblePosition = 0
 
     companion object {
         var events = ArrayList<Event>()
@@ -46,15 +44,13 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             events = savedInstanceState.getParcelableArrayList("events")
-            /*if (mListState != null) {
-                event_cards_rv.layoutManager?.onRestoreInstanceState(mListState)
-            }*/
             createEventsFeed()
         }
     }
 
     private fun updateEvents() {
         events = ArrayList()
+        scroll_view.scrollTo(0, 0)
 
         RequestsRepository.instance.getEvents(city.slug, object : EventsResponseCallback<EventsResponse> {
             override fun onSuccess(apiResponse: EventsResponse) {
@@ -174,24 +170,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
         outState?.clear()
         outState?.putParcelableArrayList("events", events)
 
-        mListState = event_cards_rv.layoutManager?.onSaveInstanceState()
-        outState?.putParcelable("list_key", mListState)
+        lastFirstVisiblePosition = (event_cards_rv.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+
+        super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        scroll_view.scrollTo(0, lastFirstVisiblePosition)
         super.onRestoreInstanceState(savedInstanceState)
-        mListState = savedInstanceState?.getParcelable("list_key")
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (mListState != null) {
-            event_cards_rv.layoutManager?.onRestoreInstanceState(mListState)
-        }
     }
 }
