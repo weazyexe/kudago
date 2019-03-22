@@ -1,14 +1,13 @@
 package exe.weazy.kudago.activity
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import exe.weazy.kudago.EventsViewModel
 import exe.weazy.kudago.R
 import exe.weazy.kudago.Tools
 import exe.weazy.kudago.adapter.EventsRecyclerViewAdapter
@@ -18,9 +17,11 @@ import exe.weazy.kudago.network.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
+
 class MainActivity : AppCompatActivity() {
 
-    private val eventViewModel by lazy { ViewModelProviders.of(this).get(EventsViewModel::class.java) }
+    //private val eventViewModel by lazy { ViewModelProviders.of(LinearLayoutManagerthis).get(EventsViewModel::class.java) }
+    var mListState : Parcelable? = null
 
     companion object {
         var events = ArrayList<Event>()
@@ -40,7 +41,16 @@ class MainActivity : AppCompatActivity() {
             updateEvents()
         }
 
-        updateEvents()
+        if (savedInstanceState == null) {
+            updateEvents()
+        }
+        else {
+            events = savedInstanceState.getParcelableArrayList("events")
+            /*if (mListState != null) {
+                event_cards_rv.layoutManager?.onRestoreInstanceState(mListState)
+            }*/
+            createEventsFeed()
+        }
     }
 
     private fun updateEvents() {
@@ -56,8 +66,6 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     val tools = Tools()
-
-
 
                     events.add(Event(
                         it.id,
@@ -163,5 +171,27 @@ class MainActivity : AppCompatActivity() {
                 tv_city.text = city.title
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.clear()
+        outState?.putParcelableArrayList("events", events)
+
+        mListState = event_cards_rv.layoutManager?.onSaveInstanceState()
+        outState?.putParcelable("list_key", mListState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        mListState = savedInstanceState?.getParcelable("list_key")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (mListState != null) {
+            event_cards_rv.layoutManager?.onRestoreInstanceState(mListState)
+        }
     }
 }

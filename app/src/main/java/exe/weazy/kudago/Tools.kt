@@ -63,7 +63,6 @@ class Tools {
     fun coordinatesToList(place: Place?) : ArrayList<Double> {
         if (place == null) return ArrayList()
 
-
         var result = ArrayList<Double>()
 
         if (place.coordinates.lat != null && place.coordinates.lon != null) {

@@ -78,93 +78,99 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             />
 
             <LinearLayout
-                    android:id="@+id/full_event_place_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginBottom="32dp"
+                    android:orientation="vertical">
 
-                <ImageView
-                        android:layout_width="14dp"
+                <LinearLayout
+                        android:id="@+id/full_event_place_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_location"/>
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
 
-                <TextView
-                        android:id="@+id/event_place"
-                        android:layout_marginLeft="8dp"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorGrayDark"
-                        android:layout_width="wrap_content"
+                    <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_location"/>
+
+                    <TextView
+                            android:id="@+id/event_place"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/colorGrayDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Nowhere"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/full_event_dates_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="Nowhere"/>
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="8dp">
 
-            </LinearLayout>
+                    <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_date"/>
 
-            <LinearLayout
-                    android:id="@+id/full_event_dates_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp">
+                    <TextView
+                            android:id="@+id/event_dates"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/colorGrayDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Never"/>
 
-                <ImageView
-                        android:layout_width="14dp"
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/full_event_price_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_date"/>
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        tools:ignore="UseCompoundDrawables">
 
-                <TextView
-                        android:id="@+id/event_dates"
-                        android:layout_marginLeft="8dp"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorGrayDark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Never"/>
+                    <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_cost"
+                    />
 
-            </LinearLayout>
+                    <TextView
+                            android:id="@+id/event_price"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/colorGrayDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Overprice"/>
 
-            <LinearLayout
-                    android:id="@+id/full_event_price_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_cost"
-                />
-
-                <TextView
-                        android:id="@+id/event_price"
-                        android:layout_marginLeft="8dp"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorGrayDark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Overprice"/>
+                </LinearLayout>
 
             </LinearLayout>
 
             <FrameLayout
-                    android:layout_marginTop="32dp"
                     android:layout_width="match_parent"
                     android:id="@+id/mapLayout"
                     android:layout_height="200dp">

@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_event.*
 class EventActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var googleMap: GoogleMap? = null
-    private var coordinates: ArrayList<Double> = ArrayList()
+    private var coordinates: List<Double> = ArrayList()
     private val tools: Tools by lazy(LazyThreadSafetyMode.NONE) { Tools(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setData() {
-        val data = intent.extras.getSerializable("event") as Event
+        val data = intent.extras.getParcelable("event") as Event
 
         event_title.text = data.title.toUpperCase()
         event_short_desc.text = data.shortDescription
@@ -48,10 +48,9 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var images: ArrayList<String>
 
+        coordinates = data.coordinates//.map { it.toDouble() }.toList()
 
-        coordinates = data.coordinates
-
-        if (coordinates.size != 0) createMapView()
+        if (coordinates.isNotEmpty()) createMapView()
         else mapLayout.visibility = View.GONE
 
         if (data.imageUrls.size > 0) {
