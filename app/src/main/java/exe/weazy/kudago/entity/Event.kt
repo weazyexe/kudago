@@ -3,33 +3,22 @@ import java.io.Serializable
 
 class Event : @Transient Serializable {
     var id: Int = 0
-        private set
 
     var title: String = ""
-        private set
 
     var shortDescription: String = ""
-        private set
 
     var fullDescription: String = ""
-        private set
 
     var place: String = ""
-        private set
+
+    var price : String = ""
 
     var dates: String = ""
-        private set
-
-    var price: String = ""
-        private set
 
     var imageUrls = ArrayList<String>()
-        private set
 
     var coordinates = ArrayList<Double>()
-        private set
-
-    constructor()
 
     constructor(id: Int, title: String, shortDescription : String,
                 fullDescription : String, place : String, dates : String, price : String,

@@ -10,7 +10,7 @@ class NetworkService {
 
     private val okHttpClient: OkHttpClient
     private val retrofit: Retrofit
-    val service: EventsService
+    val service: RequestService
 
     private object Holder { val INSTANCE = NetworkService() }
 
@@ -21,7 +21,7 @@ class NetworkService {
     init {
         okHttpClient = buildHttpClient()
         retrofit = buildRetrofit(okHttpClient)
-        service = retrofit.create(EventsService::class.java)
+        service = retrofit.create(RequestService::class.java)
     }
 
     private fun buildHttpClient(): OkHttpClient {

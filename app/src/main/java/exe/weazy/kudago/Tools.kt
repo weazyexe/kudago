@@ -84,4 +84,16 @@ class Tools {
 
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
+
+    fun oneMoreEnter(str : String) : String {
+        val paragraphs = str.split("\n")
+
+        var result = ""
+
+        paragraphs.forEach {
+            result += it + "\n\n"
+        }
+
+        return result
+    }
 }

@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
             android:padding="8dp"
-            android:layout_margin="8dp">
+            android:layout_margin="12dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -36,8 +36,8 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="22sp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     tools:text="LOREM IPSUM HEADER"
             />
 
@@ -48,8 +48,8 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     android:maxLines="3"
                     android:ellipsize="end"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -61,8 +61,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="16dp">
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp">
 
                 <ImageView
                         android:layout_width="14dp"
@@ -87,8 +87,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp">
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp">
 
             <ImageView
                     android:layout_width="14dp"
@@ -113,8 +113,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     tools:ignore="UseCompoundDrawables">
 
                 <ImageView

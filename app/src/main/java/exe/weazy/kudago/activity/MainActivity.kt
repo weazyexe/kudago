@@ -1,5 +1,6 @@
 package exe.weazy.kudago.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -9,19 +10,26 @@ import android.view.View
 import exe.weazy.kudago.R
 import exe.weazy.kudago.Tools
 import exe.weazy.kudago.adapter.EventsRecyclerViewAdapter
+import exe.weazy.kudago.entity.City
 import exe.weazy.kudago.entity.Event
-import exe.weazy.kudago.network.EventsRepository
 import exe.weazy.kudago.network.EventsResponse
-import exe.weazy.kudago.network.ResponseCallback
+import exe.weazy.kudago.network.EventsResponseCallback
+import exe.weazy.kudago.network.RequestsRepository
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar_main.*
 
 class MainActivity : AppCompatActivity() {
 
     var events = ArrayList<Event>()
+    lateinit var city: City
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //updateDataFromPreferences()
+        city = City("msk", "Москва", true)
+        tv_city.text = city.title
 
         swipe_refresh_layout.setOnRefreshListener {
             connection_failed.visibility = View.GONE
@@ -33,7 +41,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateEvents() {
-        EventsRepository.instance.getEvents(object : ResponseCallback<EventsResponse> {
+        events = ArrayList()
+
+        RequestsRepository.instance.getEvents(city.slug, object : EventsResponseCallback<EventsResponse> {
             override fun onSuccess(apiResponse: EventsResponse) {
                 apiResponse.events.forEach {
                     val currentImages = ArrayList<String>()
@@ -43,6 +53,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     val tools = Tools()
+
+
 
                     events.add(Event(
                         it.id,
@@ -99,4 +111,55 @@ class MainActivity : AppCompatActivity() {
                 updateEvents()
             }.show()
     }
+
+    fun chooseCity(v: View) {
+        val intent = Intent(this, CityActivity::class.java)
+        intent.putExtra("city", city)
+
+        startActivityForResult(intent, 1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data == null) return
+
+        city = data.extras.getSerializable("city") as City
+
+        tv_city.text = city.title
+
+        savePreferences()
+
+        updateEvents()
+
+        loading_view.visibility = View.VISIBLE
+        event_cards_rv.visibility = View.GONE
+    }
+
+    private fun savePreferences() {
+        val sharedPreferences = getSharedPreferences(getString(R.string.app_package), Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("city", city.slug).commit()
+    }
+
+    private fun updateDataFromPreferences() {
+        val sharedPreferences = getSharedPreferences(getString(R.string.app_package), Context.MODE_PRIVATE)
+        val slug = sharedPreferences.getString("city", "msk")
+        //setCityBySlug(slug)
+    }
+
+    /*private fun setCityBySlug(slug: String) {
+        val cityActivity = CityActivity()
+
+        cityActivity.updateCities()
+        cityActivity.cities.forEach {
+            if (it.slug == slug) {
+                city.title = it.title
+                city.slug = it.slug
+                city.checked = true
+            }
+        }
+        tv_city.text = city.title
+    }
+
+    fun getCityBySlug(slug: String) {
+
+    }*/
 }

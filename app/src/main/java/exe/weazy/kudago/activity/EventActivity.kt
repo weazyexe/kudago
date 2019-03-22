@@ -30,38 +30,38 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
         setData()
     }
 
-    fun setData() {
+    private fun setData() {
         val data = intent.extras.getSerializable("event") as Event
 
-        event_title.text = data.title
+        event_title.text = data.title.toUpperCase()
         event_short_desc.text = data.shortDescription
-        event_full_desc.text = data.fullDescription
-        event_place.text = data.place
-        event_dates.text = data.dates
-        event_price.text = data.price
+        event_full_desc.text = tools.oneMoreEnter(data.fullDescription)
 
-        val images = data.imageUrls
-        /*val data = intent.extras
+        if (data.place != "") event_place.text = data.place
+        else full_event_place_layout.visibility = View.GONE
 
-        event_title.text = data.getString("title")
-        event_short_desc.text = data.getString("shortDesc")
-        event_full_desc.text = data.getString("fullDesc")
-        event_place.text = data.getString("place")
-        event_dates.text = data.getString("dates")
-        event_price.text = data.getString("price")
+        if (data.dates != "") event_dates.text = data.dates
+        else full_event_dates_layout.visibility = View.GONE
 
-        val images = data.get("images") as ArrayList<String>*/
+        if (data.price != "") event_price.text = data.price
+        else full_event_price_layout.visibility = View.GONE
+
+        var images: ArrayList<String>
+
 
         coordinates = data.coordinates
 
         if (coordinates.size != 0) createMapView()
         else mapLayout.visibility = View.GONE
 
-        if (images.size > 0) {
+        if (data.imageUrls.size > 0) {
+            images = data.imageUrls
             val adapter = EventImagesPagerAdapter(this, images)
             images_viewpager.adapter = adapter
 
             circleIndicator.setViewPager(images_viewpager)
+        } else {
+            images_view.visibility = View.GONE
         }
     }
 
