@@ -1,6 +1,6 @@
 package exe.weazy.kudago.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,31 +11,38 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import exe.weazy.kudago.R
 import exe.weazy.kudago.entity.Event
+import exe.weazy.kudago.util.datesToString
+import exe.weazy.kudago.util.placeToString
 
-class EventsRecyclerViewAdapter(private val items : List<Event>) : RecyclerView.Adapter<EventsRecyclerViewAdapter.ViewHolder>() {
+class EventsAdapter(private val items : List<Event>) : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
     var onItemClick: ((Event) -> Unit)? = null
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) = ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.card_event, p0, false))
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) : ViewHolder {
+        return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.card_event, p0, false))
+    }
 
     override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        val item = items[p1]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = items[position]
 
-        p0.title.text = item.title.toUpperCase()
-        p0.shortDescription.text = item.shortDescription
+        holder.title.text = item.title.toUpperCase()
+        holder.shortDescription.text = item.shortDescription
 
-        if (item.dates != "") p0.dates.text = item.dates
-        else p0.datesLayout.visibility = View.GONE
+        if (!item.dates.isNullOrEmpty()) holder.dates.text = datesToString(item.dates[0].startDate, item.dates[0].endDate)
+        else holder.datesLayout.visibility = View.GONE
 
-        if (item.place != "") p0.place.text = item.place
-        else p0.placeLayout.visibility = View.GONE
+        if (item.place != null) holder.place.text = placeToString(item.place)
+        else holder.placeLayout.visibility = View.GONE
 
-        if (item.price != "") p0.price.text = item.price
-        else p0.priceLayout.visibility = View.GONE
+        if (item.price != "") holder.price.text = item.price
+        else holder.priceLayout.visibility = View.GONE
 
-        Glide.with(p0.eventLayout).load(item.imageUrls[0]).into(p0.image)
+        Glide.with(holder.eventLayout)
+            .load(item.images[0].image)
+            .placeholder(R.drawable.ic_image_placeholder)
+            .into(holder.image)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

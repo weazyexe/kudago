@@ -1,10 +1,10 @@
-package exe.weazy.kudago.activity
+package exe.weazy.kudago.view
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -12,16 +12,20 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import exe.weazy.kudago.R
-import exe.weazy.kudago.Tools
-import exe.weazy.kudago.adapter.EventImagesPagerAdapter
+import exe.weazy.kudago.adapter.EventImagesAdapter
+import exe.weazy.kudago.entity.Coordinates
 import exe.weazy.kudago.entity.Event
+import exe.weazy.kudago.entity.Image
+import exe.weazy.kudago.util.bitmapDescriptorFromVector
+import exe.weazy.kudago.util.datesToString
+import exe.weazy.kudago.util.oneMoreEnter
+import exe.weazy.kudago.util.placeToString
 import kotlinx.android.synthetic.main.activity_event.*
 
 class EventActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var googleMap: GoogleMap? = null
-    private var coordinates: List<Double> = ArrayList()
-    private val tools: Tools by lazy(LazyThreadSafetyMode.NONE) { Tools(this) }
+    private lateinit var coordinates: Coordinates
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,31 +35,35 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setData() {
-        val data = intent.extras.getParcelable("event") as Event
+        val data = intent.extras?.getSerializable("event") as Event
 
         event_title.text = data.title.toUpperCase()
         event_short_desc.text = data.shortDescription
-        event_full_desc.text = tools.oneMoreEnter(data.fullDescription)
+        event_full_desc.text = oneMoreEnter(data.fullDescription)
 
-        if (data.place != "") event_place.text = data.place
+        if (data.place != null) event_place.text = placeToString(data.place)
         else full_event_place_layout.visibility = View.GONE
 
-        if (data.dates != "") event_dates.text = data.dates
+        if (!data.dates.isNullOrEmpty()) event_dates.text = datesToString(data.dates[0].startDate, data.dates[0].endDate)
         else full_event_dates_layout.visibility = View.GONE
 
         if (data.price != "") event_price.text = data.price
         else full_event_price_layout.visibility = View.GONE
 
-        var images: ArrayList<String>
+        val images: ArrayList<Image>
 
-        coordinates = data.coordinates
+        if (data.place != null) {
+            coordinates = data.place!!.coordinates
+            if (coordinates.lat != null && coordinates.lon != null) {
+                createMapView()
+            } else {
+                mapLayout.visibility = View.GONE
+            }
+        }
 
-        if (coordinates.isNotEmpty()) createMapView()
-        else mapLayout.visibility = View.GONE
-
-        if (data.imageUrls.size > 0) {
-            images = data.imageUrls
-            val adapter = EventImagesPagerAdapter(this, images)
+        if (data.images.size > 0) {
+            images = data.images
+            val adapter = EventImagesAdapter(images)
             images_viewpager.adapter = adapter
 
             circleIndicator.setViewPager(images_viewpager)
@@ -73,7 +81,7 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
             Intent.ACTION_VIEW,
             Uri.parse(
                 "http://maps.google.com/maps?saddr=My+Location&daddr=" +
-                        coordinates[0].toString() + "," + coordinates[1].toString()
+                        coordinates.lat + "," + coordinates.lon
             )
         )
         startActivity(intent)
@@ -87,13 +95,15 @@ class EventActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(p0: GoogleMap?) {
         googleMap = p0
 
-        val coords = LatLng(coordinates[0], coordinates[1])
+        if (coordinates.lat != null && coordinates.lon != null) {
+            val coords = LatLng(coordinates.lat!!, coordinates.lon!!)
 
-        googleMap?.addMarker(
-            MarkerOptions().position(coords)
-                .icon(tools.bitmapDescriptorFromVector(this, R.drawable.ic_map_mark))
-        )
-        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 15.0F))
+            googleMap?.addMarker(
+                MarkerOptions().position(coords)
+                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_map_mark))
+            )
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 15.0F))
+        }
     }
 
 }

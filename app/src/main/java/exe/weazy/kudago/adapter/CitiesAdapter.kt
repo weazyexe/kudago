@@ -1,6 +1,6 @@
 package exe.weazy.kudago.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.widget.TextView
 import exe.weazy.kudago.R
 import exe.weazy.kudago.entity.City
 
-class CitiesRecyclerViewAdapter(private val items : List<City>) : RecyclerView.Adapter<CitiesRecyclerViewAdapter.ViewHolder>() {
+class CitiesAdapter(private val items : List<City>) : RecyclerView.Adapter<CitiesAdapter.ViewHolder>() {
 
     var onItemClick: ((City) -> Unit)? = null
 

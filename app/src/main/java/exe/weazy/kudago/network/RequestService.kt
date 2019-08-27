@@ -1,6 +1,8 @@
 package exe.weazy.kudago.network
 
 import exe.weazy.kudago.entity.City
+import exe.weazy.kudago.entity.CityResponse
+import exe.weazy.kudago.entity.EventsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

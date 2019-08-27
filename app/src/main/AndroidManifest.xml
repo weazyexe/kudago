@@ -12,7 +12,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.CityActivity">
+        <activity android:name=".view.CityActivity">
         </activity>
 
         <meta-data
@@ -22,9 +22,9 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyCee8l_-SCwEuQgvG7jFxLjrXjxcGib-P4"/>
 
-        <activity android:name=".activity.EventActivity">
+        <activity android:name=".view.EventActivity">
         </activity>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
