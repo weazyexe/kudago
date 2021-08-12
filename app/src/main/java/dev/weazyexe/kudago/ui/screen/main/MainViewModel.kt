@@ -29,7 +29,7 @@ class MainViewModel : ViewModel() {
 
     private fun loadEvents() = viewModelScope.launch {
         try {
-            updateState(getState().copy(isLoading = true, hasError = false))
+            updateState(getState().copy(isLoading = true, error = null))
             val events = eventsRepository.getEvents(DEFAULT_CITY)
             updateState(
                 getState().copy(
@@ -42,7 +42,7 @@ class MainViewModel : ViewModel() {
                 getState().copy(
                     events = emptyList(),
                     isLoading = false,
-                    hasError = true
+                    error = e
                 )
             )
         }

@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_connection_failed.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/activity_event.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23020833333333332" />
       </map>

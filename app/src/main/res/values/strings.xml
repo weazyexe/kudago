@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">KudaGo</string>
     <string name="connection_failed">Ошибка загрузки данных, проверьте соединение с интернетом</string>
-    <string name="connection_failed_snackbar">Невозможно загрузить данные</string>
+    <string name="error_text">Произошла ошибка загрузки данных</string>
     <string name="retry">Подключиться</string>
     <string name="route">Проложить маршрут</string>
     <string name="choose_city">Выберите город</string>

@@ -13,6 +13,7 @@ import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.net.ConnectException
 
 /**
  * Главный экран
@@ -47,24 +48,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        event_cards_rv.layoutManager = LinearLayoutManager(this)
-        event_cards_rv.adapter = adapter
+        with (binding.eventCardsRv) {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = this@MainActivity.adapter
+        }
     }
 
     private fun render(state: MainState) {
-        when {
-            state.isLoading -> {
-                event_cards_rv.isVisible = false
-                loading_view.isVisible = true
-            }
-            state.hasError -> {
-                // TODO
-            }
-            state.events.isNotEmpty() -> {
-                event_cards_rv.isVisible = true
-                loading_view.isVisible = false
+        with (binding) {
+            when {
+                state.isLoading -> {
+                    connectionFailedLayout.isVisible = false
+                    eventCardsRv.isVisible = false
+                    loadingLayout.isVisible = true
+                    errorLayout.isVisible = false
+                }
+                state.error is ConnectException -> {
+                    connectionFailedLayout.isVisible = true
+                    eventCardsRv.isVisible = false
+                    loadingLayout.isVisible = false
+                    errorLayout.isVisible = false
+                }
+                state.error != null -> {
+                    connectionFailedLayout.isVisible = false
+                    eventCardsRv.isVisible = false
+                    loadingLayout.isVisible = false
+                    errorLayout.isVisible = true
+                }
+                state.events.isNotEmpty() -> {
+                    connectionFailedLayout.isVisible = false
+                    eventCardsRv.isVisible = true
+                    loadingLayout.isVisible = false
+                    errorLayout.isVisible = false
 
-                adapter.setData(state.events)
+                    adapter.setData(state.events)
+                }
             }
         }
     }
