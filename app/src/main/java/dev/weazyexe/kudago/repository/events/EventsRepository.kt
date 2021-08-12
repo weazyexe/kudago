@@ -1,6 +1,8 @@
 package dev.weazyexe.kudago.repository.events
 
 import dev.weazyexe.kudago.domain.event.Event
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 /**
@@ -13,6 +15,7 @@ class EventsRepository @Inject constructor(
     /**
      * Получить список событий
      */
-    suspend fun getEvents(city: String): List<Event> =
-        eventsApi.getEvents(city).transform()
+    fun getEvents(city: String): Flow<List<Event>> = flow {
+        emit(eventsApi.getEvents(city).transform())
+    }
 }

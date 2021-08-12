@@ -26,7 +26,7 @@
                     app:layout_collapseMode="pin">
 
                 <include
-                        android:id="@+id/rv_toolbar"
+                        android:id="@+id/toolbar_layout"
                         layout="@layout/toolbar_main" />
 
             </androidx.appcompat.widget.Toolbar>

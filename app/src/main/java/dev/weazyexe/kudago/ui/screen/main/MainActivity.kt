@@ -11,6 +11,7 @@ import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.net.ConnectException
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @FlowPreview
     private fun initListeners() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.loadEvents(isSwipeRefresh = true)
@@ -57,42 +59,57 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun render(state: MainState) {
-        with (binding) {
-            when {
-                state.isSwipeRefresh -> {
-                    // Do nothing
-                }
-                state.isLoading -> {
-                    swipeRefreshLayout.isRefreshing = false
-                    connectionFailedLayout.isVisible = false
-                    eventCardsRv.isVisible = false
-                    loadingLayout.isVisible = state.isLoading
-                    errorLayout.isVisible = false
-                }
-                state.error is ConnectException -> {
-                    swipeRefreshLayout.isRefreshing = false
-                    connectionFailedLayout.isVisible = true
-                    eventCardsRv.isVisible = false
-                    loadingLayout.isVisible = false
-                    errorLayout.isVisible = false
-                }
-                state.error != null -> {
-                    swipeRefreshLayout.isRefreshing = false
-                    connectionFailedLayout.isVisible = false
-                    eventCardsRv.isVisible = false
-                    loadingLayout.isVisible = false
-                    errorLayout.isVisible = true
-                }
-                state.events.isNotEmpty() -> {
-                    swipeRefreshLayout.isRefreshing = false
-                    connectionFailedLayout.isVisible = false
-                    eventCardsRv.isVisible = true
-                    loadingLayout.isVisible = false
-                    errorLayout.isVisible = false
+        renderEvents(state)
+        renderCity(state)
+    }
 
-                    adapter.setData(state.events)
-                }
+    private fun renderEvents(state: MainState) = with(binding) {
+        val loadState = state.eventsLoadState
+        val data = loadState.data
+
+        when {
+            loadState.isSwipeRefresh -> {
+                // Do nothing
             }
+            loadState.isLoading -> {
+                swipeRefreshLayout.isRefreshing = false
+                connectionFailedLayout.isVisible = false
+                eventCardsRv.isVisible = false
+                loadingLayout.isVisible = loadState.isLoading
+                errorLayout.isVisible = false
+            }
+            loadState.error is ConnectException -> {
+                swipeRefreshLayout.isRefreshing = false
+                connectionFailedLayout.isVisible = true
+                eventCardsRv.isVisible = false
+                loadingLayout.isVisible = false
+                errorLayout.isVisible = false
+            }
+            loadState.error != null -> {
+                swipeRefreshLayout.isRefreshing = false
+                connectionFailedLayout.isVisible = false
+                eventCardsRv.isVisible = false
+                loadingLayout.isVisible = false
+                errorLayout.isVisible = true
+            }
+            data != null && data.isNotEmpty() -> {
+                swipeRefreshLayout.isRefreshing = false
+                connectionFailedLayout.isVisible = false
+                eventCardsRv.isVisible = true
+                loadingLayout.isVisible = false
+                errorLayout.isVisible = false
+
+                adapter.setData(data)
+            }
+        }
+    }
+
+    private fun renderCity(state: MainState) = with(binding.toolbarLayout) {
+        val loadState = state.cityLoadState
+        val data = loadState.data
+
+        if (data != null) {
+            cityTv.text = data.title
         }
     }
 }

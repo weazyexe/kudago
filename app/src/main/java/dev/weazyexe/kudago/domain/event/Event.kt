@@ -1,5 +1,6 @@
 package dev.weazyexe.kudago.domain.event
 
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -14,4 +15,4 @@ data class Event(
     val endDate: Date?,
     val price: String,
     val images: List<String>
-)
+) : Serializable
