@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 presenter = it
                 presenter.attach(this)
 
-                val slug = getSharedPreferences(getString(R.string.app_package), Context.MODE_PRIVATE).getString("city", "msk")
+                val slug = getSharedPreferences(getString(R.string.app_package), Context.MODE_PRIVATE).getString("city", "msk").orEmpty()
 
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                 presenter.fetchEvents(slug)
