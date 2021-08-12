@@ -4,9 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import dev.weazyexe.kudago.R
-
 
 class EventImagesAdapter(private var images: List<String>) : PagerAdapter() {
 
@@ -20,7 +19,7 @@ class EventImagesAdapter(private var images: List<String>) : PagerAdapter() {
         imageView.setImageResource(R.drawable.ic_image_placeholder)
         container.addView(imageView)
 
-        Picasso.get()
+        Glide.with(imageView)
             .load(images[position])
             .error(R.drawable.ic_image_placeholder)
             .placeholder(R.drawable.ic_image_placeholder)
