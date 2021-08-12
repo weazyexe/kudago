@@ -1,4 +1,4 @@
-package dev.weazyexe.kudago.util
+package dev.weazyexe.kudago.utils
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -4,11 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.weazyexe.kudago.repository.cities.CitiesRepository
 import dev.weazyexe.kudago.repository.events.EventsRepository
-import dev.weazyexe.kudago.utils.handleErrors
+import dev.weazyexe.kudago.utils.extensions.handleErrors
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -30,7 +29,6 @@ class MainViewModel : ViewModel() {
         loadEvents()
     }
 
-    @FlowPreview
     fun loadEvents(isSwipeRefresh: Boolean = false) = viewModelScope.launch {
         updateState(
             getState().copy(

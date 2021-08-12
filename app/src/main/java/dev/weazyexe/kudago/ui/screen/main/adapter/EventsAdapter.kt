@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dev.weazyexe.kudago.R
 import dev.weazyexe.kudago.domain.event.Event
-import dev.weazyexe.kudago.util.datesToString
-import dev.weazyexe.kudago.util.placeToString
+import dev.weazyexe.kudago.utils.datesToString
+import dev.weazyexe.kudago.utils.placeToString
 
 class EventsAdapter(
     private var items: MutableList<Event>

@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @FlowPreview
     private fun initListeners() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.loadEvents(isSwipeRefresh = true)

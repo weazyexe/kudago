@@ -1,4 +1,4 @@
-package dev.weazyexe.kudago.adapter
+package dev.weazyexe.kudago.ui.screen.event.adapter
 
 import android.view.View
 import android.view.ViewGroup

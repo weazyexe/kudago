@@ -1,13 +1,13 @@
-package dev.weazyexe.kudago.adapter
+package dev.weazyexe.kudago.ui.screen.city.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import dev.weazyexe.kudago.R
-import dev.weazyexe.kudago.entity.City
+import dev.weazyexe.kudago.domain.city.City
 
 class CitiesAdapter(private val items : List<City>) : RecyclerView.Adapter<CitiesAdapter.ViewHolder>() {
 
@@ -21,8 +21,8 @@ class CitiesAdapter(private val items : List<City>) : RecyclerView.Adapter<Citie
         val item = items[p1]
 
         p0.title.text = item.title
-        if (item.checked) p0.checked.visibility = View.VISIBLE
-        else p0.checked.visibility = View.GONE
+//        if (item.checked) p0.checked.visibility = View.VISIBLE
+//        else p0.checked.visibility = View.GONE
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
