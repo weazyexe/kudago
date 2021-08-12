@@ -1,5 +1,13 @@
 package dev.weazyexe.kudago.app.core
 
+/**
+ * Базовое состояние загрузки данных
+ *
+ * @property data загруженные данные
+ * @property error [Exception], брошенная при загрузке
+ * @property isLoading состояние загрузки
+ * @property isSwipeRefresh состояние загрузки через свайп
+ */
 data class LoadState<T>(
     val data: T? = null,
     val error: Exception? = null,
@@ -7,6 +15,9 @@ data class LoadState<T>(
     val isSwipeRefresh: Boolean = false
 ) {
 
+    /**
+     * Изменить текущее состояние на состояние загрузки
+     */
     fun loading(isSwipeRefresh: Boolean = false): LoadState<T> =
         LoadState(
             data = if (isSwipeRefresh) {
@@ -19,6 +30,9 @@ data class LoadState<T>(
             isSwipeRefresh = isSwipeRefresh
         )
 
+    /**
+     * Изменить текущее состояние на состояние ошибки
+     */
     fun error(e: Exception): LoadState<T> =
         LoadState(
             data = null,
@@ -27,6 +41,9 @@ data class LoadState<T>(
             isSwipeRefresh = false
         )
 
+    /**
+     * Изменить текущее состояние на состояние успешной загрузки данных
+     */
     fun data(data: T): LoadState<T> =
         LoadState(
             data = data,

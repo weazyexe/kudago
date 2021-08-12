@@ -1,11 +1,14 @@
-package dev.weazyexe.kudago.ui.screen.city
+package dev.weazyexe.kudago.ui.screen.cities
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dev.weazyexe.kudago.R
 
-class CityActivity : AppCompatActivity() {
+/**
+ * Экран выбора города
+ */
+class CitiesActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<CitiesViewModel>()
 

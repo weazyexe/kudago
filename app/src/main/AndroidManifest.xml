@@ -14,7 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <activity android:name="dev.weazyexe.kudago.ui.screen.city.CityActivity" />
+        <activity android:name="dev.weazyexe.kudago.ui.screen.cities.CitiesActivity" />
 
         <activity
                 android:name="dev.weazyexe.kudago.ui.screen.main.MainActivity"

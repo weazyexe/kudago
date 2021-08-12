@@ -1,4 +1,4 @@
-package dev.weazyexe.kudago.ui.screen.city.adapter
+package dev.weazyexe.kudago.ui.screen.cities.adapter
 
 import android.view.LayoutInflater
 import android.view.View
