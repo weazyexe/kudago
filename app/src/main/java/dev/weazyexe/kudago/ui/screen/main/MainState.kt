@@ -6,5 +6,6 @@ import java.lang.Exception
 data class MainState(
     val events: List<Event> = emptyList(),
     val error: Exception? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isSwipeRefresh: Boolean = false
 )

@@ -27,14 +27,21 @@ class MainViewModel : ViewModel() {
         loadEvents()
     }
 
-    private fun loadEvents() = viewModelScope.launch {
+    fun loadEvents(isSwipeRefresh: Boolean = false) = viewModelScope.launch {
         try {
-            updateState(getState().copy(isLoading = true, error = null))
+            updateState(
+                getState().copy(
+                    isLoading = true,
+                    isSwipeRefresh = isSwipeRefresh,
+                    error = null
+                )
+            )
             val events = eventsRepository.getEvents(DEFAULT_CITY)
             updateState(
                 getState().copy(
                     events = events,
-                    isLoading = false
+                    isLoading = false,
+                    isSwipeRefresh = false
                 )
             )
         } catch (e: Exception) {
@@ -42,6 +49,7 @@ class MainViewModel : ViewModel() {
                 getState().copy(
                     events = emptyList(),
                     isLoading = false,
+                    isSwipeRefresh = false,
                     error = e
                 )
             )

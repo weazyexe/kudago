@@ -44,7 +44,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.loadEvents(isSwipeRefresh = true)
+        }
     }
 
     private fun initViews() {
@@ -57,25 +59,32 @@ class MainActivity : AppCompatActivity() {
     private fun render(state: MainState) {
         with (binding) {
             when {
+                state.isSwipeRefresh -> {
+                    // Do nothing
+                }
                 state.isLoading -> {
+                    swipeRefreshLayout.isRefreshing = false
                     connectionFailedLayout.isVisible = false
                     eventCardsRv.isVisible = false
-                    loadingLayout.isVisible = true
+                    loadingLayout.isVisible = state.isLoading
                     errorLayout.isVisible = false
                 }
                 state.error is ConnectException -> {
+                    swipeRefreshLayout.isRefreshing = false
                     connectionFailedLayout.isVisible = true
                     eventCardsRv.isVisible = false
                     loadingLayout.isVisible = false
                     errorLayout.isVisible = false
                 }
                 state.error != null -> {
+                    swipeRefreshLayout.isRefreshing = false
                     connectionFailedLayout.isVisible = false
                     eventCardsRv.isVisible = false
                     loadingLayout.isVisible = false
                     errorLayout.isVisible = true
                 }
                 state.events.isNotEmpty() -> {
+                    swipeRefreshLayout.isRefreshing = false
                     connectionFailedLayout.isVisible = false
                     eventCardsRv.isVisible = true
                     loadingLayout.isVisible = false
