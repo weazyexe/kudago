@@ -5,7 +5,6 @@ import dev.weazyexe.kudago.app.core.Transformable
 import dev.weazyexe.kudago.domain.event.Event
 import dev.weazyexe.kudago.domain.event.Place
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Ответ на запрос событий

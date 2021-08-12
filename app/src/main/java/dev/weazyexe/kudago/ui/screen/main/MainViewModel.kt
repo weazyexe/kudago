@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import dev.weazyexe.kudago.repository.cities.CitiesRepository
 import dev.weazyexe.kudago.repository.events.EventsRepository
 import dev.weazyexe.kudago.utils.extensions.handleErrors
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject

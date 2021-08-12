@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.net.ConnectException
 
 /**
@@ -51,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        with (binding.eventCardsRv) {
+        with(binding.eventCardsRv) {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = this@MainActivity.adapter
         }
