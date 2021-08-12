@@ -15,11 +15,13 @@ import dev.weazyexe.kudago.domain.event.Event
 import dev.weazyexe.kudago.util.datesToString
 import dev.weazyexe.kudago.util.placeToString
 
-class EventsAdapter(private val items : List<Event>) : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
+class EventsAdapter(
+    private var items: MutableList<Event>
+) : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
     var onItemClick: ((Event) -> Unit)? = null
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) : ViewHolder {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.card_event, p0, false))
     }
 
@@ -31,7 +33,8 @@ class EventsAdapter(private val items : List<Event>) : RecyclerView.Adapter<Even
         holder.title.text = item.title.uppercase()
         holder.shortDescription.text = item.shortDescription
 
-        if (item.startDate != null || item.endDate != null) holder.dates.text = datesToString(item.startDate, item.endDate)
+        if (item.startDate != null || item.endDate != null) holder.dates.text =
+            datesToString(item.startDate, item.endDate)
         else holder.datesLayout.isVisible = false
 
         if (item.place != null) holder.place.text = placeToString(item.place)
@@ -49,25 +52,23 @@ class EventsAdapter(private val items : List<Event>) : RecyclerView.Adapter<Even
     }
 
     fun setData(items: List<Event>) {
-        this.items.toMutableList().apply {
-            clear()
-            addAll(items)
-            notifyDataSetChanged()
-        }
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var eventLayout : FrameLayout
-        var title : TextView
-        var shortDescription : TextView
-        var image : ImageView
-        var place : TextView
-        var dates : TextView
-        var price : TextView
-        var datesLayout : LinearLayout
-        var placeLayout : LinearLayout
-        var priceLayout : LinearLayout
+        var eventLayout: FrameLayout
+        var title: TextView
+        var shortDescription: TextView
+        var image: ImageView
+        var place: TextView
+        var dates: TextView
+        var price: TextView
+        var datesLayout: LinearLayout
+        var placeLayout: LinearLayout
+        var priceLayout: LinearLayout
 
         init {
             super.itemView

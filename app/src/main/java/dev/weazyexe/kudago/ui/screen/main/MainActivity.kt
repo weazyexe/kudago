@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private val adapter = EventsAdapter(emptyList())
+    private val adapter = EventsAdapter(mutableListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity() {
                 // TODO
             }
             state.events.isNotEmpty() -> {
+                event_cards_rv.isVisible = true
+                loading_view.isVisible = false
+
                 adapter.setData(state.events)
             }
         }

@@ -16,7 +16,7 @@ interface EventsApi {
     suspend fun getEvents(
         @Query("location") city: String,
         @Query("fields") fields: String = "id,dates,title,place,price,description,images,body_text",
-        @Query("expand") expand: String = "place,dates",
+        @Query("expand") expand: String = "place",
         @Query("order_by") orderBy: String = "-publication_date",
         @Query("text_format") textFormat: String = "text"
     ): EventsResponse
