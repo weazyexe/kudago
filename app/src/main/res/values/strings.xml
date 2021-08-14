@@ -5,5 +5,4 @@
     <string name="retry">Подключиться</string>
     <string name="route">Проложить маршрут</string>
     <string name="choose_city">Выберите город</string>
-    <string name="app_package">exe.weazy.kudago</string>
 </resources>

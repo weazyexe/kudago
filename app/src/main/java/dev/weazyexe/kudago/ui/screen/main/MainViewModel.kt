@@ -30,7 +30,7 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
 
     override suspend fun saveState(state: MainState) {
         saved[EVENTS_KEY] = state.eventsLoadState
-        saved[CITY_KEY] = state.eventsLoadState
+        saved[CITY_KEY] = state.cityLoadState
     }
 
     fun onCreate() {
