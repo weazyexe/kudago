@@ -41,12 +41,11 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
 
     fun loadEvents(isSwipeRefresh: Boolean = false) = viewModelScope.launch {
         state.copy(
-            eventsLoadState = state
-                .eventsLoadState
-                .loading(isSwipeRefresh),
-            cityLoadState =state
-                .cityLoadState
-                .loading()
+            eventsLoadState = LoadState.loading(
+                isSwipeRefresh,
+                oldData = state.eventsLoadState.data
+            ),
+            cityLoadState = LoadState.loading()
         ).emit()
 
         citiesRepository.getCurrentCity()
@@ -55,25 +54,22 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
             }
             .flatMapConcat { city ->
                 state.copy(
-                    cityLoadState = state
-                        .cityLoadState
-                        .data(city)
+                    cityLoadState = LoadState.data(city)
                 ).emit()
 
                 eventsRepository.getEvents(city.slug)
             }
-            .handleErrors {
+            .handleErrors { exception ->
                 state.copy(
-                    eventsLoadState = state
-                        .eventsLoadState
-                        .error(it)
+                    eventsLoadState = LoadState.error(
+                        exception,
+                        oldData = state.eventsLoadState.data
+                    )
                 ).emit()
             }
             .collect { events ->
                 state.copy(
-                    eventsLoadState = state
-                        .eventsLoadState
-                        .data(events)
+                    eventsLoadState = LoadState.data(events)
                 ).emit()
             }
     }

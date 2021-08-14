@@ -17,40 +17,45 @@ data class LoadState<T>(
     val isSwipeRefresh: Boolean = false
 ) : Serializable {
 
-    /**
-     * Изменить текущее состояние на состояние загрузки
-     */
-    fun loading(isSwipeRefresh: Boolean = false): LoadState<T> =
-        LoadState(
-            data = if (isSwipeRefresh) {
-                data
-            } else {
-                null
-            },
-            error = null,
-            isLoading = true,
-            isSwipeRefresh = isSwipeRefresh
-        )
+    companion object {
 
-    /**
-     * Изменить текущее состояние на состояние ошибки
-     */
-    fun error(e: Exception): LoadState<T> =
-        LoadState(
-            data = null,
-            error = e,
-            isLoading = false,
-            isSwipeRefresh = false
-        )
+        /**
+         * Создать [LoadState] в состоянии загрузки
+         */
+        fun <T> loading(
+            isSwipeRefresh: Boolean = false,
+            oldData: T? = null
+        ): LoadState<T> =
+            LoadState(
+                data = oldData,
+                error = null,
+                isLoading = true,
+                isSwipeRefresh = isSwipeRefresh
+            )
 
-    /**
-     * Изменить текущее состояние на состояние успешной загрузки данных
-     */
-    fun data(data: T): LoadState<T> =
-        LoadState(
-            data = data,
-            error = null,
-            isLoading = false,
-            isSwipeRefresh = false
-        )
+        /**
+         * Создать [LoadState] в состоянии ошибки
+         */
+        fun <T> error(
+            e: Exception,
+            oldData: T? = null
+        ): LoadState<T> =
+            LoadState(
+                data = oldData,
+                error = e,
+                isLoading = false,
+                isSwipeRefresh = false
+            )
+
+        /**
+         * Создать [LoadState] в состоянии показа данных
+         */
+        fun <T> data(data: T): LoadState<T> =
+            LoadState(
+                data = data,
+                error = null,
+                isLoading = false,
+                isSwipeRefresh = false
+            )
+    }
 }
