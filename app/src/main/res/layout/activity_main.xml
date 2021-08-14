@@ -50,8 +50,9 @@
                     android:id="@+id/event_cards_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clipToPadding="false"
                     android:scrollbars="vertical"
-                    android:paddingBottom="64dp">
+                    android:paddingBottom="24dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 

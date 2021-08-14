@@ -1,15 +1,16 @@
 package dev.weazyexe.kudago.ui.screen.main
 
-
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
+import dev.weazyexe.kudago.utils.extensions.makeEdgeToEdge
+import dev.weazyexe.kudago.utils.extensions.setPaddingWithInsets
 import kotlinx.coroutines.flow.collect
 import java.net.ConnectException
 
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.onCreate()
 
         initViews()
+        initEdgeToEdge()
         initListeners()
         initObservers()
     }
@@ -47,11 +49,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initViews() {
-        with(binding.eventCardsRv) {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = this@MainActivity.adapter
-        }
+    private fun initViews() = with(binding) {
+        eventCardsRv.layoutManager = LinearLayoutManager(this@MainActivity)
+        eventCardsRv.adapter = adapter
+    }
+
+    private fun initEdgeToEdge() = with(binding) {
+        makeEdgeToEdge()
+
+        mainLayout.setPaddingWithInsets(WindowInsetsCompat.Type.statusBars())
+        eventCardsRv.setPaddingWithInsets(WindowInsetsCompat.Type.navigationBars())
+        toolbar.setPaddingWithInsets(WindowInsetsCompat.Type.navigationBars())
     }
 
     private fun render(state: MainState) {
