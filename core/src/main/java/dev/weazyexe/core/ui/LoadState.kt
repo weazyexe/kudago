@@ -1,4 +1,6 @@
-package dev.weazyexe.kudago.app.core
+package dev.weazyexe.core.ui
+
+import java.io.Serializable
 
 /**
  * Базовое состояние загрузки данных
@@ -13,7 +15,7 @@ data class LoadState<T>(
     val error: Exception? = null,
     val isLoading: Boolean = false,
     val isSwipeRefresh: Boolean = false
-) {
+) : Serializable {
 
     /**
      * Изменить текущее состояние на состояние загрузки

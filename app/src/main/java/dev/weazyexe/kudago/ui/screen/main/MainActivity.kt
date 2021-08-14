@@ -1,15 +1,15 @@
 package dev.weazyexe.kudago.ui.screen.main
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import dev.weazyexe.core.utils.extensions.makeEdgeToEdge
 import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
-import dev.weazyexe.kudago.utils.extensions.makeEdgeToEdge
 import dev.weazyexe.kudago.utils.extensions.setPaddingWithInsets
 import kotlinx.coroutines.flow.collect
 import java.net.ConnectException
@@ -17,7 +17,7 @@ import java.net.ConnectException
 /**
  * Главный экран
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         lifecycleScope.launchWhenCreated {
-            viewModel.state.collect(::render)
+            viewModel.uiState.collect(::render)
         }
     }
 

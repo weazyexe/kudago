@@ -1,6 +1,6 @@
 package dev.weazyexe.kudago.repository.events
 
-import dev.weazyexe.kudago.app.di.PerApplication
+import dev.weazyexe.core.di.PerApplication
 import dev.weazyexe.kudago.domain.event.Event
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -3,7 +3,7 @@ package dev.weazyexe.kudago.repository.cities
 import android.content.Context
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import dev.weazyexe.kudago.app.di.PerApplication
+import dev.weazyexe.core.di.PerApplication
 import dev.weazyexe.kudago.utils.extensions.get
 import dev.weazyexe.kudago.utils.extensions.put
 import kotlinx.coroutines.flow.Flow

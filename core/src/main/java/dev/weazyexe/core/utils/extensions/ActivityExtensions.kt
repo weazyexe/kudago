@@ -1,4 +1,4 @@
-package dev.weazyexe.kudago.utils.extensions
+package dev.weazyexe.core.utils.extensions
 
 import android.app.Activity
 import androidx.core.view.WindowCompat

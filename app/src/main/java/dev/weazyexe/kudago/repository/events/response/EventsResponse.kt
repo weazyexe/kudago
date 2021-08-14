@@ -1,7 +1,7 @@
 package dev.weazyexe.kudago.repository.events.response
 
 import com.google.gson.annotations.SerializedName
-import dev.weazyexe.kudago.app.core.Transformable
+import dev.weazyexe.core.network.Transformable
 import dev.weazyexe.kudago.domain.event.Event
 import dev.weazyexe.kudago.domain.event.Place
 import java.util.*

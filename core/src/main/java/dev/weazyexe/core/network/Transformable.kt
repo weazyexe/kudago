@@ -1,4 +1,4 @@
-package dev.weazyexe.kudago.app.core
+package dev.weazyexe.core.network
 
 /**
  * Интерфейс, описывающий трансформацию объекта в тип [T]

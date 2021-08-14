@@ -1,7 +1,7 @@
 package dev.weazyexe.kudago.repository.cities
 
-import dev.weazyexe.kudago.app.core.transform
-import dev.weazyexe.kudago.app.di.PerApplication
+import dev.weazyexe.core.di.PerApplication
+import dev.weazyexe.core.network.transform
 import dev.weazyexe.kudago.domain.city.City
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

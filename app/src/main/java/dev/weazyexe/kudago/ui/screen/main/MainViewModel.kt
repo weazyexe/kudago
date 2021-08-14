@@ -1,18 +1,21 @@
 package dev.weazyexe.kudago.ui.screen.main
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dev.weazyexe.core.ui.CoreViewModel
+import dev.weazyexe.core.ui.LoadState
 import dev.weazyexe.kudago.repository.cities.CitiesRepository
 import dev.weazyexe.kudago.repository.events.EventsRepository
 import dev.weazyexe.kudago.utils.extensions.handleErrors
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
  * Вью модель экрана [MainActivity]
  */
-class MainViewModel : ViewModel() {
+class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainState>() {
 
     @Inject
     lateinit var eventsRepository: EventsRepository
@@ -20,64 +23,64 @@ class MainViewModel : ViewModel() {
     @Inject
     lateinit var citiesRepository: CitiesRepository
 
-    private val _state = MutableStateFlow(MainState())
-    val state: StateFlow<MainState>
-        get() = _state.asStateFlow()
+    override val initialState = MainState(
+        eventsLoadState = saved[EVENTS_KEY] ?: LoadState(),
+        cityLoadState = saved[CITY_KEY] ?: LoadState()
+    )
+
+    override suspend fun saveState(state: MainState) {
+        saved[EVENTS_KEY] = state.eventsLoadState
+        saved[CITY_KEY] = state.eventsLoadState
+    }
 
     fun onCreate() {
-        loadEvents()
+        if (saved.keys().isEmpty()) {
+            loadEvents()
+        }
     }
 
     fun loadEvents(isSwipeRefresh: Boolean = false) = viewModelScope.launch {
-        updateState(
-            getState().copy(
-                eventsLoadState = getState()
-                    .eventsLoadState
-                    .loading(isSwipeRefresh),
-                cityLoadState = getState()
-                    .cityLoadState
-                    .loading()
-            )
-        )
+        state.copy(
+            eventsLoadState = state
+                .eventsLoadState
+                .loading(isSwipeRefresh),
+            cityLoadState =state
+                .cityLoadState
+                .loading()
+        ).emit()
 
         citiesRepository.getCurrentCity()
             .flatMapConcat { slug ->
                 citiesRepository.getCityBySlug(slug)
             }
             .flatMapConcat { city ->
-                updateState(
-                    getState().copy(
-                        cityLoadState = getState()
-                            .cityLoadState
-                            .data(city)
-                    )
-                )
+                state.copy(
+                    cityLoadState = state
+                        .cityLoadState
+                        .data(city)
+                ).emit()
 
                 eventsRepository.getEvents(city.slug)
             }
             .handleErrors {
-                updateState(
-                    getState().copy(
-                        eventsLoadState = getState()
-                            .eventsLoadState
-                            .error(it)
-                    )
-                )
+                state.copy(
+                    eventsLoadState = state
+                        .eventsLoadState
+                        .error(it)
+                ).emit()
             }
             .collect { events ->
-                updateState(
-                    getState().copy(
-                        eventsLoadState = getState()
-                            .eventsLoadState
-                            .data(events)
-                    )
-                )
+                state.copy(
+                    eventsLoadState = state
+                        .eventsLoadState
+                        .data(events)
+                ).emit()
             }
     }
 
-    private fun getState(): MainState = state.value
+    private companion object {
 
-    private suspend fun updateState(state: MainState) {
-        _state.emit(state)
+        const val EVENTS_KEY = "EVENTS_KEY"
+        const val CITY_KEY = "CITY_KEY"
     }
 }
