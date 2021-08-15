@@ -16,6 +16,12 @@ update it and develop it with modern stack!
 - View Binding
 - Material Design (+dark theme)
 
+## Data source
+
+I used KudaGo API for list of events,
+events details and list of cities. You can check
+it out [right there](https://docs.kudago.com/api/)
+
 ## Screenshots
 
 // WIP
