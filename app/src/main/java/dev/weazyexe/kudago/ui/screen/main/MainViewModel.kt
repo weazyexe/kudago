@@ -25,12 +25,10 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
     lateinit var citiesRepository: CitiesRepository
 
     override val initialState = MainState(
-        eventsLoadState = saved[EVENTS_KEY] ?: LoadState(),
         cityLoadState = saved[CITY_KEY] ?: LoadState()
     )
 
     override suspend fun saveState(state: MainState) {
-        saved[EVENTS_KEY] = state.eventsLoadState
         saved[CITY_KEY] = state.cityLoadState
     }
 
@@ -78,7 +76,6 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
 
     private companion object {
 
-        const val EVENTS_KEY = "EVENTS_KEY"
         const val CITY_KEY = "CITY_KEY"
     }
 }
