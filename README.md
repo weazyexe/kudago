@@ -11,6 +11,7 @@ update it and develop it with modern stack!
 - Kotlin
 - Coroutines & Flows
 - Paging Library 3
+- DataStore
 - Dagger 2
 - Retrofit
 - View Binding
