@@ -89,6 +89,6 @@ data class CoordinatesDto(
  * Dto с данными о времени проведения события
  */
 data class DateDto(
-    @SerializedName("start_date") var startDate: Long?,
-    @SerializedName("end_date") var endDate: Long?
+    @SerializedName("start") val startDate: Long?,
+    @SerializedName("end") val endDate: Long?
 )

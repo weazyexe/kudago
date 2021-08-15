@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="colorPrimaryDark">#D1D1D1</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="colorRed">#E62D37</color>
+    <color name="colorRed">#D81B60</color>
+    <color name="colorDarkRed">#88143E</color>
+    <color name="colorBerryRed">#B30041</color>
+    <color name="colorWhite">#FFF</color>
     <color name="colorBlack">#262626</color>
     <color name="colorGrayDark">#666666</color>
 </resources>

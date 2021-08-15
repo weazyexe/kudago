@@ -6,37 +6,38 @@ import android.graphics.Canvas
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import dev.weazyexe.core.utils.EMPTY_STRING
+import dev.weazyexe.core.utils.extensions.appendIf
 import dev.weazyexe.kudago.domain.event.Place
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-fun placeToString(place : Place?) : String {
-    if (place == null) return ""
+fun placeToString(place: Place?): String {
+    place ?: return EMPTY_STRING
 
-    var result = ""
-
-    if (place.title != "") result += place.title
-    if (place.title != "" && place.address != "") result += ", "
-    if (place.address != "") result += place.address
-
-    return result
+    return StringBuilder()
+        .appendIf(place.title.isNotEmpty(), place.title)
+        .appendIf(place.title.isNotEmpty() && place.address.isNotEmpty(), ", ")
+        .appendIf(place.address.isNotEmpty(), place.address)
+        .toString()
 }
 
 fun datesToString(startDate: Date?, endDate: Date?): String {
-    val formatter = SimpleDateFormat("dd.MM")
+    val formatter = SimpleDateFormat("dd MMM", Locale.getDefault())
 
-    return when {
-        startDate == null && endDate == null -> ""
-        startDate != null && endDate == null -> formatter.format(startDate)
-        startDate == null && endDate != null -> "до ${formatter.format(endDate)}"
-        else -> "${formatter.format(startDate)} - ${formatter.format(endDate)}"
+    val formattedStartDate = formatter.format(startDate ?: return EMPTY_STRING)
+    val formattedEndDate = formatter.format(endDate ?: return formattedStartDate)
+
+    return if (formattedStartDate == formattedEndDate) {
+        formattedStartDate
+    } else {
+        "$formattedStartDate - $formattedEndDate"
     }
-
 }
 
-fun coordinatesToList(place: Place?) : ArrayList<Double> {
+fun coordinatesToList(place: Place?): ArrayList<Double> {
     if (place == null) return ArrayList()
 
     var result = ArrayList<Double>()
@@ -53,14 +54,18 @@ fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescri
     val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
     vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
     val bitmap =
-        Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
     val canvas = Canvas(bitmap)
     vectorDrawable.draw(canvas)
 
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
 
-fun oneMoreEnter(str : String) : String {
+fun oneMoreEnter(str: String): String {
     val paragraphs = str.split("\n")
 
     var result = ""

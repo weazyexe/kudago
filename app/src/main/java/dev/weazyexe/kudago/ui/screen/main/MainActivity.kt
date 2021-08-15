@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.weazyexe.core.utils.extensions.makeEdgeToEdge
 import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
+import dev.weazyexe.kudago.ui.common.EasyLoadStateAdapter
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
 import dev.weazyexe.kudago.utils.extensions.setPaddingWithInsets
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.net.ConnectException
 
 /**
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private val adapter = EventsAdapter(mutableListOf())
+    private val adapter = EventsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,9 @@ class MainActivity : ComponentActivity() {
 
     private fun initViews() = with(binding) {
         eventCardsRv.layoutManager = LinearLayoutManager(this@MainActivity)
-        eventCardsRv.adapter = adapter
+        eventCardsRv.adapter = adapter.withLoadStateFooter(
+            footer = EasyLoadStateAdapter { adapter.retry() }
+        )
     }
 
     private fun initEdgeToEdge() = with(binding) {
@@ -96,14 +100,19 @@ class MainActivity : ComponentActivity() {
                 loadingLayout.isVisible = false
                 errorLayout.isVisible = true
             }
-            data != null && data.isNotEmpty() -> {
+            data != null -> {
                 swipeRefreshLayout.isRefreshing = false
                 connectionFailedLayout.isVisible = false
                 eventCardsRv.isVisible = true
                 loadingLayout.isVisible = false
                 errorLayout.isVisible = false
 
-                adapter.setData(data)
+                lifecycleScope.launch {
+                    adapter.submitData(data)
+                }
+            }
+            else -> {
+                // Do nothing
             }
         }
     }

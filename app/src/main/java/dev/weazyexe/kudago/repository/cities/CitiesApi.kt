@@ -13,7 +13,7 @@ interface CitiesApi {
     /**
      * Получение списка всех городов
      */
-    @GET("locations")
+    @GET("locations/")
     suspend fun getCities(
         @Query("lang") language: String = "ru"
     ): List<CityDto>
@@ -21,7 +21,7 @@ interface CitiesApi {
     /**
      * Получение города по его [slug]
      */
-    @GET("locations/{location}")
+    @GET("locations/{location}/")
     suspend fun getCityBySlug(
         @Path("location") slug: String,
         @Query("fields") fields: String = "name,slug"

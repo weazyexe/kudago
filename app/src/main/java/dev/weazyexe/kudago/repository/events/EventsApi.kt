@@ -12,9 +12,11 @@ interface EventsApi {
     /**
      * Получить список событий в [city]
      */
-    @GET("events")
+    @GET("events/")
     suspend fun getEvents(
         @Query("location") city: String,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int,
         @Query("fields") fields: String = "id,dates,title,place,price,description,images,body_text",
         @Query("expand") expand: String = "place",
         @Query("order_by") orderBy: String = "-publication_date",
