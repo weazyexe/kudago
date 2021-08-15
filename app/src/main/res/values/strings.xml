@@ -5,4 +5,7 @@
     <string name="retry">Подключиться</string>
     <string name="route">Проложить маршрут</string>
     <string name="choose_city">Выберите город</string>
+
+    <string name="loading_error_text">Произошла ошибка загрузки</string>
+    <string name="loading_error_retry">Повторить</string>
 </resources>

@@ -2,12 +2,13 @@ package dev.weazyexe.kudago.ui.screen.main
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import dev.weazyexe.core.ui.CoreViewModel
 import dev.weazyexe.core.ui.LoadState
 import dev.weazyexe.kudago.repository.cities.CitiesRepository
 import dev.weazyexe.kudago.repository.events.EventsRepository
 import dev.weazyexe.kudago.utils.extensions.handleErrors
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
         state.copy(
             eventsLoadState = LoadState.loading(
                 isSwipeRefresh,
-                oldData = state.eventsLoadState.data
+                state.eventsLoadState.data
             ),
             cityLoadState = LoadState.loading()
         ).emit()
@@ -63,13 +64,14 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
                 state.copy(
                     eventsLoadState = LoadState.error(
                         exception,
-                        oldData = state.eventsLoadState.data
+                        state.eventsLoadState.data
                     )
                 ).emit()
             }
-            .collect { events ->
+            .cachedIn(viewModelScope)
+            .collectLatest {
                 state.copy(
-                    eventsLoadState = LoadState.data(events)
+                    eventsLoadState = LoadState.data(it)
                 ).emit()
             }
     }
