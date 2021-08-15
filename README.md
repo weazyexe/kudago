@@ -1,4 +1,4 @@
-![kudago header](./images/kudago.jpeg)
+![kudago header](./images/kudago.jpg)
 
 # KudaGo
 
