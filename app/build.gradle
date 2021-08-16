@@ -19,4 +19,7 @@ dependencies {
 
     // google maps
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+    // insetter
+    implementation "dev.chrisbanes.insetter:insetter:0.6.0"
 }

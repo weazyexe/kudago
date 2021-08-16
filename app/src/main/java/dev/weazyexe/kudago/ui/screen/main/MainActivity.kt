@@ -4,14 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.core.view.*
+import androidx.core.view.WindowInsetsCompat.*
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import dev.chrisbanes.insetter.applyInsetter
 import dev.weazyexe.core.utils.extensions.makeEdgeToEdge
 import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
 import dev.weazyexe.kudago.ui.common.EasyLoadStateAdapter
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
-import dev.weazyexe.kudago.utils.extensions.setPaddingWithInsets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.net.ConnectException
@@ -61,9 +62,15 @@ class MainActivity : ComponentActivity() {
     private fun initEdgeToEdge() = with(binding) {
         makeEdgeToEdge()
 
-        mainLayout.setPaddingWithInsets(WindowInsetsCompat.Type.statusBars())
-        eventCardsRv.setPaddingWithInsets(WindowInsetsCompat.Type.navigationBars())
-        toolbar.setPaddingWithInsets(WindowInsetsCompat.Type.navigationBars())
+        eventCardsRv.applyInsetter {
+            type(Type.navigationBars()) { padding() }
+        }
+        mainLayout.applyInsetter {
+            type(Type.statusBars()) { padding() }
+        }
+        toolbarContainer.applyInsetter {
+            type(Type.navigationBars()) { padding(horizontal = true) }
+        }
     }
 
     private fun render(state: MainState) {
