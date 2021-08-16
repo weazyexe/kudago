@@ -150,6 +150,7 @@ class MainActivity : ComponentActivity() {
         val loadState = state.cityLoadState
         val data = loadState.data
 
+        pickCityBtn.isVisible = data != null
         if (data != null) {
             cityTv.text = data.title
         }
