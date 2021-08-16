@@ -19,7 +19,14 @@ class CitiesRepository @Inject constructor(
     /**
      * Получение текущего выбранного города
      */
-    fun getCurrentCity(): Flow<String> = citiesStorage.getCurrentCity()
+    fun getCurrentCity(): Flow<String> =
+        citiesStorage.getCurrentCity()
+
+    /**
+     * Обновление текущего выбранного города
+     */
+    fun updateCurrentCity(city: String): Flow<Boolean> =
+        citiesStorage.updateCurrentCity(city)
 
     /**
      * Получение списка всех городов

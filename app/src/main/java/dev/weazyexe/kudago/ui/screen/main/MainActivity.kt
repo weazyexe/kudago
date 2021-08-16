@@ -2,6 +2,7 @@ package dev.weazyexe.kudago.ui.screen.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.core.view.*
 import androidx.core.view.WindowInsetsCompat.*
@@ -12,6 +13,8 @@ import dev.weazyexe.core.utils.extensions.makeEdgeToEdge
 import dev.weazyexe.kudago.app.App
 import dev.weazyexe.kudago.databinding.ActivityMainBinding
 import dev.weazyexe.kudago.ui.common.EasyLoadStateAdapter
+import dev.weazyexe.kudago.ui.screen.cities.contract.PickCityContract
+import dev.weazyexe.kudago.ui.screen.main.MainEffect.*
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,6 +29,10 @@ class MainActivity : ComponentActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val adapter = EventsAdapter()
+
+    private val pickCityContract = registerForActivityResult(PickCityContract()) {
+        viewModel.onCityPicked(it)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +51,20 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.uiState.collect(::render)
         }
+        lifecycleScope.launchWhenCreated {
+            viewModel.effects.collect(::handleEffect)
+        }
     }
 
     private fun initListeners() {
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.loadEvents(isSwipeRefresh = true)
+        with(binding) {
+            swipeRefreshLayout.setOnRefreshListener {
+                viewModel.loadCityAndEvents(isSwipeRefresh = true)
+            }
+
+            toolbarLayout.pickCityBtn.setOnClickListener {
+                viewModel.onPickCityClicked()
+            }
         }
     }
 
@@ -65,11 +81,17 @@ class MainActivity : ComponentActivity() {
         eventCardsRv.applyInsetter {
             type(Type.navigationBars()) { padding() }
         }
-        mainLayout.applyInsetter {
-            type(Type.statusBars()) { padding() }
-        }
         toolbarContainer.applyInsetter {
             type(Type.navigationBars()) { padding(horizontal = true) }
+            type(Type.statusBars()) { margin() }
+        }
+    }
+
+    private fun handleEffect(effect: MainEffect) {
+        when (effect) {
+            is OpenCitiesScreen -> {
+                pickCityContract.launch()
+            }
         }
     }
 

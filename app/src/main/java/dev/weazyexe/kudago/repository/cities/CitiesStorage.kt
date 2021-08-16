@@ -26,7 +26,6 @@ class CitiesStorage @Inject constructor(
     fun getCurrentCity(): Flow<String> =
         context.dataStore.get(CURRENT_CITY_KEY, DEFAULT_CITY)
 
-    suspend fun updateCurrentCity(city: String) {
+    fun updateCurrentCity(city: String): Flow<Boolean> =
         context.dataStore.put(CURRENT_CITY_KEY, city)
-    }
 }

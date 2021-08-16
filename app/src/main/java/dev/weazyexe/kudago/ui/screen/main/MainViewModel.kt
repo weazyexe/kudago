@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dev.weazyexe.core.ui.CoreViewModel
 import dev.weazyexe.core.ui.LoadState
+import dev.weazyexe.kudago.domain.city.City
 import dev.weazyexe.kudago.repository.cities.CitiesRepository
 import dev.weazyexe.kudago.repository.events.EventsRepository
+import dev.weazyexe.kudago.ui.screen.main.MainEffect.*
 import dev.weazyexe.kudago.utils.extensions.handleErrors
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapConcat
@@ -16,7 +18,9 @@ import javax.inject.Inject
 /**
  * Вью модель экрана [MainActivity]
  */
-class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainState>() {
+class MainViewModel(
+    private val saved: SavedStateHandle
+) : CoreViewModel<MainState, MainEffect>() {
 
     @Inject
     lateinit var eventsRepository: EventsRepository
@@ -34,11 +38,31 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
 
     fun onCreate() {
         if (saved.keys().isEmpty()) {
-            loadEvents()
+            loadCityAndEvents()
         }
     }
 
-    fun loadEvents(isSwipeRefresh: Boolean = false) = viewModelScope.launch {
+    fun onPickCityClicked() {
+        OpenCitiesScreen.emit()
+    }
+
+    fun onCityPicked(city: City?) = viewModelScope.launch {
+        city ?: return@launch
+
+        state.copy(
+            cityLoadState = LoadState.data(city),
+            eventsLoadState = LoadState.loading()
+        ).emit()
+
+        citiesRepository.updateCurrentCity(city.slug)
+            .collectLatest { success ->
+                if (success) {
+                    loadEvents(city.slug)
+                }
+            }
+    }
+
+    fun loadCityAndEvents(isSwipeRefresh: Boolean = false) = viewModelScope.launch {
         state.copy(
             eventsLoadState = LoadState.loading(
                 isSwipeRefresh,
@@ -51,13 +75,17 @@ class MainViewModel(private val saved: SavedStateHandle) : CoreViewModel<MainSta
             .flatMapConcat { slug ->
                 citiesRepository.getCityBySlug(slug)
             }
-            .flatMapConcat { city ->
+            .collectLatest { city ->
                 state.copy(
                     cityLoadState = LoadState.data(city)
                 ).emit()
 
-                eventsRepository.getEvents(city.slug)
+                loadEvents(city.slug)
             }
+    }
+
+    private suspend fun loadEvents(slug: String) {
+        eventsRepository.getEvents(slug)
             .handleErrors { exception ->
                 state.copy(
                     eventsLoadState = LoadState.error(

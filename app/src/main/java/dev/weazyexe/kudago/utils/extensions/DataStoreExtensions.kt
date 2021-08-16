@@ -4,6 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 /**
@@ -19,11 +21,18 @@ fun <T> DataStore<Preferences>.get(
 /**
  * Записать в [DataStore] значение типа [T]
  */
-suspend fun <T> DataStore<Preferences>.put(
+fun <T> DataStore<Preferences>.put(
     key: Preferences.Key<T>,
     value: T
-) {
-    edit { prefs ->
-        prefs[key] = value
+): Flow<Boolean> {
+    return try {
+        flow {
+            edit { prefs ->
+                prefs[key] = value
+                emit(true)
+            }
+        }
+    } catch (e: Exception) {
+        flowOf(false)
     }
 }
