@@ -46,13 +46,13 @@ class CitiesAdapter(
         private val binding = ViewHolderCityBinding.bind(view)
 
         fun bind(model: CityUiModel) {
-            binding.root.setOnClickListener {
-                onItemClick(model.city)
-            }
-
             with(binding) {
                 titleTv.text = model.city.title
                 checkIv.isVisible = model.isChecked
+
+                root.setOnClickListener {
+                    onItemClick(model.city)
+                }
             }
         }
     }
