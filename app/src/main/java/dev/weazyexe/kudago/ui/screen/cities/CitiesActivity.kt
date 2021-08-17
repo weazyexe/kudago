@@ -108,18 +108,27 @@ class CitiesActivity : ComponentActivity() {
             when {
                 loadState.isLoading -> {
                     loadingPb.isVisible = true
-                    successLayout.isVisible = false
-                    connectionFailedLayout.isVisible = false
+                    citiesRv.isVisible = false
+                    connectionFailedEv.isVisible = false
+                    errorEv.isVisible = false
+                }
+                loadState.isNetworkError() -> {
+                    loadingPb.isVisible = false
+                    citiesRv.isVisible = false
+                    connectionFailedEv.isVisible = true
+                    errorEv.isVisible = false
                 }
                 loadState.error != null -> {
                     loadingPb.isVisible = false
-                    successLayout.isVisible = false
-                    connectionFailedLayout.isVisible = true
+                    citiesRv.isVisible = false
+                    connectionFailedEv.isVisible = false
+                    errorEv.isVisible = true
                 }
                 data != null -> {
                     loadingPb.isVisible = false
-                    successLayout.isVisible = true
-                    connectionFailedLayout.isVisible = false
+                    citiesRv.isVisible = true
+                    connectionFailedEv.isVisible = false
+                    errorEv.isVisible = false
 
                     adapter.submitList(data)
                 }

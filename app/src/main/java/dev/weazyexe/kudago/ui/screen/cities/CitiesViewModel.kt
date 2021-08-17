@@ -46,7 +46,9 @@ class CitiesViewModel(
 
         getCurrentCityFlow.zip(getCitiesFlow) { city, cities -> city to cities }
             .handleErrors {
-                // TODO
+                state.copy(
+                    cities = LoadState.error(it)
+                ).emit()
             }
             .collectLatest { (city, cities) ->
                 val mappedCities = cities.map {

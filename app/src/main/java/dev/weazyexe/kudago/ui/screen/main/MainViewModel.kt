@@ -75,6 +75,11 @@ class MainViewModel(
             .flatMapConcat { slug ->
                 citiesRepository.getCityBySlug(slug)
             }
+            .handleErrors {
+                state.copy(
+                    eventsLoadState = LoadState.error(it)
+                ).emit()
+            }
             .collectLatest { city ->
                 state.copy(
                     cityLoadState = LoadState.data(city)

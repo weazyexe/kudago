@@ -13,7 +13,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/card_event.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_city.xml" value="0.16259057971014493" />
+        <entry key="app/src/main/res/layout/layout_connection_failed.xml" value="0.24739583333333334" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_error.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/view_holder_city.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_holder_loading.xml" value="0.18335635095869113" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.1" />

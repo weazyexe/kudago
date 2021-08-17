@@ -40,83 +40,58 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/event_cards_rv"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingBottom="24dp"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/event_cards_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="24dp"
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <FrameLayout
+                android:id="@+id/loading_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+            <dev.weazyexe.kudago.ui.common.ErrorView
+                android:id="@+id/connection_failed_ev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="60dp"
+                android:visibility="gone"
+                app:ev_icon="@drawable/ic_connection_failed"
+                app:ev_text="@string/error_connection_failed_text"
+                app:ev_title="@string/error_title" />
+
+            <dev.weazyexe.kudago.ui.common.ErrorView
+                android:id="@+id/error_ev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="60dp"
+                android:visibility="gone"
+                app:ev_icon="@drawable/ic_error"
+                app:ev_text="@string/error_other_text"
+                app:ev_title="@string/error_title" />
+
+        </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <FrameLayout
-        android:id="@+id/loading_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </FrameLayout>
-
-
-    <LinearLayout
-        android:id="@+id/connection_failed_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_connection_failed" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/connection_failed"
-            android:textAlignment="center"
-            android:textColor="@color/colorBlack"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/error_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_error" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="@string/error_text"
-            android:textAlignment="center"
-            android:textColor="@color/colorBlack"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

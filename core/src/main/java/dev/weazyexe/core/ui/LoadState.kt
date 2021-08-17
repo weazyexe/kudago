@@ -1,6 +1,8 @@
 package dev.weazyexe.core.ui
 
 import java.io.Serializable
+import java.net.ConnectException
+import java.net.UnknownHostException
 
 /**
  * Базовое состояние загрузки данных
@@ -58,4 +60,6 @@ data class LoadState<T>(
                 isSwipeRefresh = false
             )
     }
+
+    fun isNetworkError(): Boolean = error is ConnectException || error is UnknownHostException
 }

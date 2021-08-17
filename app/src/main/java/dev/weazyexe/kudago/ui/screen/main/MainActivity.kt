@@ -18,7 +18,6 @@ import dev.weazyexe.kudago.ui.screen.main.MainEffect.*
 import dev.weazyexe.kudago.ui.screen.main.adapter.EventsAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.net.ConnectException
 
 /**
  * Главный экран
@@ -110,31 +109,31 @@ class MainActivity : ComponentActivity() {
             }
             loadState.isLoading -> {
                 swipeRefreshLayout.isRefreshing = false
-                connectionFailedLayout.isVisible = false
+                connectionFailedEv.isVisible = false
                 eventCardsRv.isVisible = false
                 loadingLayout.isVisible = loadState.isLoading
-                errorLayout.isVisible = false
+                errorEv.isVisible = false
             }
-            loadState.error is ConnectException -> {
+            loadState.isNetworkError() -> {
                 swipeRefreshLayout.isRefreshing = false
-                connectionFailedLayout.isVisible = true
+                connectionFailedEv.isVisible = true
                 eventCardsRv.isVisible = false
                 loadingLayout.isVisible = false
-                errorLayout.isVisible = false
+                errorEv.isVisible = false
             }
             loadState.error != null -> {
                 swipeRefreshLayout.isRefreshing = false
-                connectionFailedLayout.isVisible = false
+                connectionFailedEv.isVisible = false
                 eventCardsRv.isVisible = false
                 loadingLayout.isVisible = false
-                errorLayout.isVisible = true
+                errorEv.isVisible = true
             }
             data != null -> {
                 swipeRefreshLayout.isRefreshing = false
-                connectionFailedLayout.isVisible = false
+                connectionFailedEv.isVisible = false
                 eventCardsRv.isVisible = true
                 loadingLayout.isVisible = false
-                errorLayout.isVisible = false
+                errorEv.isVisible = false
 
                 lifecycleScope.launch {
                     adapter.submitData(data)
